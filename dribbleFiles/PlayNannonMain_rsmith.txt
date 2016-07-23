@@ -1,0 +1,9 @@
+% Running on host: EPIC27753
+NannonGUI:  setBounds: width = 670, height = 499
+
+% This is the console of the Nannon GUI.
+% (Do a control-C here if the program appears to be hanging.)
+
+500,000 post burn-in games played so far.  Took 18 seconds.
+  Player X (NaiveBayesNetPlayer_rasmith9) won 349,919 games (69.98%) and
+  Player O (Random-Move Player) won 150,080 games (30.02%),  getPiecesPerPlayer() = 4,  getCellsOnBoard() = 8.

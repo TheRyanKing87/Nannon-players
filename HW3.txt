@@ -1,0 +1,270 @@
+Ryan Smith
+CS 540: AI
+HW #3
+
+1.
+
+i. Compute P(A = true and B = false and C = false and D = false).
+
+	(A = true and B = false and C = false and D = false)	= 1 - (0.012 + 0.013 + 0.01 + 0.025 + 0.015 + 0.025 + 0.025 + 0.025 + 0.02 + 0.03 + 0.04 + 0.05 + 0.06 + 0.07 + 0.08)
+	
+														= 0.5
+
+ii. Compute P(A = true and C = false and D = false).
+
+	P(A = true and C = false and D = false)	= 0.5 + 0.05
+	
+											= 0.55
+
+iii. Compute P(B = true or D = false).
+
+	P(B = true or D = false)	= P(B = true) + P(D = false) - P(B = true and D = false)
+	
+								= 0.35 + 0.712 - 0.16
+								
+								= 0.902
+
+iv. Compute P(D = false | A = false and B = true and C = true).
+
+with A = false and B = true and C = true being the case, the remaining possibilities are:
+
+	A	B	C	D	Prob
+	F	T	T	F	0.025
+	F	T	T	T	0.025
+
+By inspection we can see that from among these possibilities there is a probability of 0.5 that D = false is true.
+
+Using rules of probabilities to derive this:
+
+P(D = false | A = false and B = true and C = true) * P(A = false and B = true and C = true)	= P(D = false and A = false and B = true and C = true)
+
+																							= 0.025
+
+Dividing both sides by P(A = false and B = true and C = true) - which is 0.025 + 0.025 = 0.05 - gives us:
+																							
+P(D = false | A = false and B = true and C = true)	= 0.025 / 0.05
+
+													= 0.5
+
+v. Compute P(A = false and B = true and C = true | D = false).
+
+P(A = false and B = true and C = true | D = false) * P(D = false)	= P(A = false and B = true and C = true and D = false)
+
+P(A = false and B = true and C = true | D = false) * P(D = false)	= 0.025
+
+P(D = false) turns out to be 0.712, which gives us:
+
+P(A = false and B = true and C = true | D = false)	= 0.025 / 0.712
+
+													= 0.0351123595505618
+
+													
+2.
+
+From here on I'll use P(A) to denote P(A = true) and P('A) to denote P(A = false). I will also use "^" and "v" in place of "and" and "or".
+
+i. Compute P(A ^ B ^ C ^ D).
+
+P(A ^ B ^ C ^ D)	= P(A) * P(B | A) * P(C | A ^ B) * P(D | B ^ C)
+
+					= (0.9) * (0.1) * (0.7) * (0.3)
+													
+					= 0.0189
+
+ii. Compute P('A ^ 'C ^ 'D).
+
+P('A ^ 'C ^ 'D)	= P('A) * P(B | 'A) * P('C | 'A ^ B) * P('D | B ^ 'C) + P('A) * P('B | 'A) * P('C | 'A ^ 'B) * P('D | 'B ^ 'C)
+
+				= (0.1) * (0.8) * (0.5) * (0.1) + (0.1) * (0.2) * (0.6) * (0.8)
+				
+				= (0.004) +(0.0096)
+				
+				= 0.0136
+
+iii. Compute P(C = true | A=true and B=true and D=true).
+
+P(C | A ^ B ^ D)	= P(C | A ^ B)
+
+					= 0.7
+
+iv. Compute P(D= false | B = true and C = true). // Use the Markov Blanket property here.
+
+P('D | B ^ C)	= 1 - P(D | B ^ C)
+
+				= 1 - 0.3
+				
+				= 0.7
+
+v. Compute P(D= false | A=true and B = true and C = true). // Do this one without employing the Markov Blanket property (i.e., to algebraically or // numerically confirm that knowing A=true doesn’t change the result from iv).
+
+P('D | A ^ B ^ C)	= P(A ^ B ^ C ^ 'D) / P(A ^ B ^ C)
+
+					= [P(A) * P(B | A) * P(C | A ^ B) * P('D | B ^ C)] / [P(A) * P(B | A) * P(C | A ^ B) * P('D | B ^ C)]
+					
+					= [(0.9) * (0.1) * (0.7) * (0.7)] / [(0.9) * (0.1) * (0.7)]
+					
+					= 0.7
+
+vi. Compute P((A = false and C = false) or (B = true and D = true)).
+
+P(('A ^ 'C) v (B ^ D))	= P('A ^ 'C) + P((B ^ D) - P(('A ^ 'C) ^ (B ^ D))
+
+We'll solve for P('A ^ 'C) and P((B ^ D) to solve this:
+
+P('A ^ 'C)	= P('A ^ 'C ^ B) + P('A ^ 'C ^ 'B)
+			= [P('C | 'A ^ B) * P('A ^ B)] + [P('C | 'A ^ 'B) * P('A ^ 'B)]
+			= [0.5 * P(B | 'A) * P('A)] + [0.6 * P('B | 'A) * P('A)]
+			= [0.5 * 0.8 * 0.1] + [0.6 * 0.2 * 0.1]
+			= 0.04 + 0.012
+			= 0.052
+
+P(B ^ D)	= P(A ^ B ^ C ^ D) + P('A ^ B ^ C ^ D) + P(A ^ B ^ 'C ^ D) + P('A ^ B ^ 'C ^ D)
+			= 0.0189 + [P('A) * P(B | 'A) * P(C | 'A ^ B) * P(D | B ^ C)] + [P(A) * P(B | A) * P('C | A ^ B) * P(D | B ^ 'C)] + [P('A) * P(B | 'A) * P('C | 'A ^ B) * P(D | B ^ 'C)]	//using our result from i
+			= 0.0189 + [0.1 * 0.8 * 0.5 * 0.3] + [0.9 * 0.1 * 0.3 * 0.9] + [0.1 * 0.8 * 0.5 * 0.9]
+			= 0.0189 + 0.012 + 0.0243 + c
+			= 0.0912
+
+So we have:
+
+P(('A ^ 'C) v (B ^ D))	= P('A ^ 'C) + P((B ^ D) - P(('A ^ 'C) ^ (B ^ D))
+
+						= 0.052 + 0.0912 - 0.036
+						
+						= 0.1072
+
+
+3.
+
+A	B	C	D	Prob
+F	F	F	F	0.0096			//from problem 2 part ii
+F	F	F	T	0.0024			//P('A) * P('B | 'A) * P('C | 'A ^ 'B) * P(D | 'B ^ 'C) = 0.1 * 0.2 * 0.6 * 0.2 = 0.0024
+F	F	T	F	0.0072			//P('A) * P('B | 'A) * P(C | 'A ^ 'B) * P('D | 'B ^ C) = 0.1 * 0.2 * 0.4 * 0.9 = 0.0072
+F	T	F	F	0.004			//from problem 2 part ii
+T	F	F	F	0.2592			//not showing work because not required
+F	F	T	T	0.0008			//not showing work because not required
+F	T	F	T	0.036			//from problem 2 part vi
+F	T	T	F	0.028			//not showing work because not required
+T	F	T	F	0.4374			//not showing work because not required
+T	T	F	F	0.0027			//not showing work because not required
+T	F	F	T	0.0648			//not showing work because not required
+T	T	T	F	0.0441			//from problem 2 part v
+T	T	F	T	0.0243			//from problem 2 part vi
+T	F	T	T	0.0486			//not showing work because not required
+F	T	T	T	0.012			//from problem 2 part vi
+T	T	T	T	0.0189			//from problem 2 part i
+
+
+4.
+
+i.
+
+	P(flu | 'shot)
+
+It's going to be helpful to fill out the probability table for flu and shot.
+
+	flu		shot		Prob
+	F		F			A
+	F		T			B
+	T		F			C
+	T		T			D
+
+Using what we're given, we know that B + D = 0.6 and C + D = 0.4
+
+We can solve for D using the fact that P(flu | shot) = 0.2:
+
+	P(flu ^ shot) / P(shot) = 0.2
+	
+	P(flu ^ shot)	= 0.2 * 0.6
+					
+					0.12
+					
+So B = 0.6 - 0.12 = 0.48 and C = 0.4 - 0.12 = 0.28. Also, A = 1 - (B + C + D) = 1 - 0.48 - 0.28 - 0.12 = 0.12.
+
+	flu		shot		Prob
+	F		F			0.12
+	F		T			0.48
+	T		F			0.28
+	T		T			0.12
+
+Therefore:
+
+	P(flu | 'shot)	= P(flu ^ 'shot) / P('shot)
+					
+					= 0.28 / 0.4
+					
+					= 0.7
+
+ii.
+
+	P(shot | flu)
+
+From Bayes' Rule we have:
+
+	P(flu | shot)	= [P(flu) * P(shot | flu)] / P(shot)
+
+So:
+
+	[P(flu) * P(shot | flu)] / P(shot)	= 0.2
+										
+										= [0.4 * P(shot | flu)] / 0.6
+										
+Which gives us:
+
+	P(shot | flu)	= 0.3
+
+iii.
+
+	P(DH | T4)	= [P(DH) * P(T4 | DH)] / P(T4)
+				
+				= [0.0001 * 0.975] / P(T4)
+
+Solving for P(T4):
+
+	P(T4)	= P(T4 ^ DH) + P(T4 ^ 'DH)
+			
+			= P(T4 | DH) * P(DH) + P(T4 | 'DH) * P('DH)
+			
+			= 0.975 * 0.0001 + 0.025 * 0.9999
+			
+			= 0.0000975 + 0.0249975
+			
+			= 0.025095
+
+So:
+
+	P(DH | T4)	= 0.0000975 / 0.025095
+				
+				= 0.0038852361028093
+
+
+5.
+
+D = Sally likes book23
+S1 = ‘see’ in book
+S2 = ‘animal’ in book
+S3 = ‘eat’ in book
+S4 = ‘vegetable’ in book
+
+Total words in books Sally likes	= 7 + 1 + 6 + 2 + 5				//5 for the extra book with one of each word
+									
+									=  21
+
+Total words in books Sally dislikes	= 11 + 3 + 8 + 9 + 5 + 5		//5 for the extra book with one of each word
+									
+									= 36
+
+	[Prob(Sally likes book23 | ‘see’ in book ˄ ‘animal’ in book ˄ ‘eat’ in book ˄ ‘vegetable’ in book)] / [Prob(Sally dislikes book23 | ‘see’ in book ˄ ‘animal’ in book ˄ ‘eat’ in book ˄ ‘vegetable’ in book)]
+	
+	= [P(S1 | D) * P(S2 | D) * P(S3 | D) * P(S4 | D)] / [P(S1 | 'D) * P(S2 | 'D) * P(S3 | 'D) * P(S4 | 'D)]
+	
+	= [P(S1 | D) * P(S2 | D) * P(S3 | D) * P(S4 | D)] / [P(S1 | 'D) * P(S2 | 'D) * P(S3 | 'D) * P(S4 | 'D)]
+
+	= [(7/21) * (8/21) * (3/21) * (2/21)] / [(10/36) * (12/36) * (6/36) * (9/36)]
+	
+	= (336 / 194481) / (6480 / 1679616)
+	
+	= (42 / 2431) / (5 / 1296)
+	
+	= 54432 / 12155
+	
+	= 4.478157136980666

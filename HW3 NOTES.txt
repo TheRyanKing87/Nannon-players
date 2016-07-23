@@ -1,0 +1,43 @@
+implement getPlayerName(); in HandCodedPlayer_rasmith9.java
+same for
+	List<Integer> chooseMove(int[] boardConfiguration, List<List<Integer>> legalMoves);
+	updateStatistics(boolean didIwinThisGame, List<int[]> allBoardConfigurationsThisGameForPlayer, List<Integer> allCountsOfPossibleMovesForPlayer, List<List<Integer>> allMovesThisGameForPlayer);
+	reportLearnedModel();
+	
+questions
+	how are board states represented
+		as an array of integers
+	how are moves represented
+		as a list of integers
+	how are the effects of moves represented
+	
+	hook for win / loss
+	
+	how does updatestatistics work
+	
+
+allBoardConfigurationsThisGameForPlayer
+List<int[]>
+
+board configuration = 13 things
+
+	
+prob(win | XOX)         prob(XOX | win) x prob(win)
+---------------------  =  -------------------------------------- 
+ prob(loss | XOX)       prob(XOX | loss) x prob(loss)  
+
+
+
+		boardConfiguration[0] = whoseTurn;  // One of {empty, playerX, playerO}.  Shouldn't be 'empty' except before initializing.
+		boardConfiguration[1] = homePieces_playerX;
+		boardConfiguration[2] = homePieces_playerO;
+		boardConfiguration[3] = safePieces_playerX;
+		boardConfiguration[4] = safePieces_playerO;
+		boardConfiguration[5] = die_playerX; // These probably aren't needed since the legal moves are produced, but provide them in case someone wants to use them somehow,
+		boardConfiguration[6] = die_playerO;
+		
+		
+		{empty, playerX, playerO} - 1 (1 = player x)
+		
+		
+		
